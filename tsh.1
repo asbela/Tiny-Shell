@@ -1,0 +1,18 @@
+.\" Process this file with
+.\" groff -man -Tascii tsh.1
+.\"
+.TH TSH 1 "OCTOBER 2009" "NU EECS 343" "NU EECS 343 - Operating Systems - Fall 2009"
+.SH NAME
+tsh \- A tiny shell
+.SH SYNOPSIS
+.B tsh
+.SH DESCRIPTION
+.B tsh
+This program acts as a standard shell. It processes commands and their arguments as inputs through STDIN and attempts to execute them as child processes. These commands will be executed if they correspond to executables on the environment path, in the current directory, or if an absolute path is specified. The shell will respond to a CTRL + C by sending a kill SIGINT to the current foreground process as long is the foreground process is not the shell itself. 
+.SH BUILT-IN COMMANDS
+.IP exit
+Quit tsh
+.SH DESIGN APPROACH
+My main approach to creating this shell was to implement all of the main functionality initially. This included the functions sig, Interpret, and Exec. After it was clear that these were working and most basic commands were being read, I added creating, waiting, and reaping processes. Following this, the most challenging portion to write was the directory searching. After this I implemented the remaining built-in commands and did some refactoring to make the code readable. The tests 07 and 11 currently fail because of defects in the grader. 
+.SH AUTHOR
+Andrew Kahn - ajk138 - andrewkahn2015@u.northwestern.edu
