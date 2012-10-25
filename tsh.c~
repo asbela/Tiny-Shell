@@ -80,6 +80,11 @@ main(int argc, char *argv[])
       if (strcmp(cmdLine, "exit") != 0) {
       /* checks the status of background jobs */
         CheckJobs();
+<<<<<<< HEAD
+      printf("%s\n", cmdLine);
+=======
+
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
       /* interpret command and line
        * includes executing of commands */
         Interpret(cmdLine);
@@ -117,7 +122,11 @@ sig(int signo)
       struct job_t *job = getjobpid(jobs, pid);
       kill(-pid, SIGSTOP);
       job->state = ST;
+<<<<<<< HEAD
       printf("[%d]   Stopped                 %s\n", job->jid, job->cmdline);
+=======
+      printf("[%d]\tStopped\t\t%s\n", job->jid, job->cmdline);
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
     }
   }
 } /* sig */

@@ -138,6 +138,7 @@ RunCmdFork(commandT* cmd, bool fork)
 {
   if (cmd->argc <= 0)
     return;
+<<<<<<< HEAD
   int i;
   for (i = 0; i < cmd->argc; i++) {
     if (cmd->argv[i][0] == '|') {
@@ -152,7 +153,8 @@ RunCmdFork(commandT* cmd, bool fork)
       return;
     }
   }
-
+=======
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
   if (IsBuiltIn(cmd->argv[0]))
     {
       RunBuiltInCmd(cmd);
@@ -163,6 +165,7 @@ RunCmdFork(commandT* cmd, bool fork)
     }
 } /* RunCmdFork */
 
+<<<<<<< HEAD
 void getCmds(commandT* cmd, commandT** cmd1, commandT** cmd2, int argsplit) {
   char buf1[MAXLINE], buf2[MAXLINE];
   jobListToString(cmd->argv, 0, argsplit, buf1);
@@ -171,6 +174,8 @@ void getCmds(commandT* cmd, commandT** cmd1, commandT** cmd2, int argsplit) {
   *cmd1 = getCommand(buf1);
   *cmd2 = getCommand(buf2);
 }
+=======
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
 
 /*
  * RunCmdBg
@@ -203,6 +208,7 @@ RunCmdBg(commandT* cmd)
 void
 RunCmdPipe(commandT* cmd1, commandT* cmd2)
 {
+<<<<<<< HEAD
   int pid, ppid, fd[2];
   if (pipe(fd) < 0) {
     perror("pipe error");
@@ -236,6 +242,8 @@ RunCmdPipe(commandT* cmd1, commandT* cmd2)
   }
   freeCommand(cmd1);
   freeCommand(cmd2);
+=======
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
 } /* RunCmdPipe */
 
 
@@ -374,6 +382,7 @@ ResolveExternalCmd(commandT* cmd, char *abspath)
 static void
 Exec(char *abspath, commandT* cmd, bool forceFork)
 {
+<<<<<<< HEAD
   if (!forceFork) {
     if (execv(abspath, cmd->argv) < 0)
       printf("%s not found", cmd->argv[0]);
@@ -382,7 +391,12 @@ Exec(char *abspath, commandT* cmd, bool forceFork)
   sigset_t mask;
   pid_t pid;
   bool bg;
+=======
+  sigset_t mask;
+  pid_t pid;
+  bool bg;
   struct job_t *curr;
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
   char buf[MAXLINE];
   int i = 1;
   int status;
@@ -401,7 +415,11 @@ Exec(char *abspath, commandT* cmd, bool forceFork)
     bg = 1;
   } else
     bg = 0;
+<<<<<<< HEAD
   jobListToString(cmd->argv, 0, cmd->argc, buf);
+=======
+  jobListToString(cmd->argv, buf);
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
   if ((pid = fork()) < 0) {
     perror("fork error");
   } else if (pid == 0) {
@@ -411,8 +429,15 @@ Exec(char *abspath, commandT* cmd, bool forceFork)
     if (setpgid(0, 0) < 0) {
       perror("setpgid error");
     }
+<<<<<<< HEAD
     if (execv(abspath, cmd->argv) < 0)
       printf("%s not found", cmd->argv[0]);
+=======
+    if (execv(abspath, cmd->argv) < 0) {
+      printf("%s not found", cmd->argv[0]);
+      exit(1);
+    }
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
   } else {
     if (sigprocmask(SIG_UNBLOCK, &mask, NULL) != 0) {
       perror("sigprocmask error");
@@ -523,7 +548,11 @@ CheckJobs()
       pid = waitpid(jobs[i].pid, &status, WNOHANG | WUNTRACED | WCONTINUED);
       if (pid == jobs[i].pid) {
         if (!(WIFCONTINUED(status))) {
+<<<<<<< HEAD
           printf("[%d]   %s                    %s\n", jobs[i].jid, "Done", jobs[i].cmdline);
+=======
+          printf("[%d]   %s\t\t\t%s\n", jobs[i].jid, "Done", jobs[i].cmdline);
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
 	  deletejob(jobs, jobs[i].pid);
         }
       }
@@ -677,13 +706,21 @@ void listjobs(struct job_t *jobs)
 		    printf("Foreground");
 		    break;
 		case ST: 
+<<<<<<< HEAD
 		    printf("Stopped");
+=======
+		    printf("Stopped\t");
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
 		    break;
 	    default:
 		    printf("listjobs: Internal error: job[%d].state=%d ", 
 			   i, jobs[i].state);
 	    }
+<<<<<<< HEAD
 	    printf("                 %s", jobs[i].cmdline);
+=======
+	    printf("\t\t     %s ", jobs[i].cmdline);
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
 	    if (jobs[i].state == BG)
 	      printf("&");
 	    printf("\n");
@@ -695,12 +732,19 @@ void listjobs(struct job_t *jobs)
  *   ******************************/
 
 void 
+<<<<<<< HEAD
 jobListToString(char **argv, int argstart, int argend, char *buf) {
   int i = argstart, j = 0, k = 0;
   bool quote = 0;
   while (argv[i]) {
     if (i >= argend) 
       break;
+=======
+jobListToString(char **argv, char *buf) {
+  int i = 0, j = 0, k = 0;
+  bool quote = 0;
+  while (argv[i]) {
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
     for (j = 0; j < strlen(argv[i]); j++) {
       if (argv[i][j] == ' ') {
         quote = 1;
@@ -724,4 +768,8 @@ jobListToString(char **argv, int argstart, int argend, char *buf) {
     i++;
   }
   buf[k] = '\0';
+<<<<<<< HEAD
+  printf("%s\n", buf);
+=======
+>>>>>>> d83e919e321306e1fc97310ad80b28b839b43fa0
 }
